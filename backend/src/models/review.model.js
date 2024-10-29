@@ -62,6 +62,15 @@ reviewSchema.methods.deleteReviewFromComment = async function (courseId) {
   }
 };
 
+reviewSchema.methods.updateReview = async function (updateData){
+
+  Object.assign(this, updateData);
+
+  const updatedReview = await this.save();
+
+  return updatedReview;
+}
+
 const Review = mongoose.model("Review", reviewSchema);
 
 export default Review;

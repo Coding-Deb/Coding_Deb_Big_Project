@@ -239,6 +239,22 @@ export const getUser = asyncHandler(async (req, res, next) => {
   }
 });
 
+export const getAllUser = asyncHandler(async (req, res, next) => {
+  try {
+    const user = new User();
+    const users = await user.usersWithoutAdmin()
+
+    return apiResponse(res, 200, "Users found successfully", users);
+  } catch (error) {
+    return apiError(
+      res,
+      500,
+      "Internal Server Error",
+      "An error occurred while getting the user"
+    );
+  }
+});
+
 export const updateUser = asyncHandler(async (req, res, next) => {
   try {
     const id = req.user.id;
@@ -301,13 +317,22 @@ export const deleteUser = asyncHandler(async (req, res, next) => {
       new: true,
     });
     if (!user) {
-      return apiError(res,500,"User Not Delete !!!", "Not Delete, Something Happened !!!");
+      return apiError(
+        res,
+        500,
+        "User Not Delete !!!",
+        "Not Delete, Something Happened !!!"
+      );
     }
 
     return apiResponse(res, 200, "User deleted successfully", user);
   } catch (error) {
     console.log(error);
-    return apiError(res,500,"User Not Delete !!!", "Not Delete, Something Happened !!!");
-    
+    return apiError(
+      res,
+      500,
+      "User Not Delete !!!",
+      "Not Delete, Something Happened !!!"
+    );
   }
 });

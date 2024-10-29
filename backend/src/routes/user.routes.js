@@ -2,6 +2,7 @@ import express from "express";
 import {
   createUser,
   deleteUser,
+  getAllUser,
   getUser,
   logInUser,
   logOut,
@@ -25,6 +26,7 @@ userRouter.route("/refreshToken").post(refreshAccessToken);
 
 // User Routes
 userRouter.route("/").get(verifyJWT, getUser);
+userRouter.route("/allUser").get(verifyJWT,adminCheck,getAllUser);
 
 // update User
 userRouter.route("/update").put(verifyJWT, updateUser);

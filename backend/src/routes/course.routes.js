@@ -5,6 +5,7 @@ import {
   getAllReviewByCourse,
   getCourseById,
   getEnrolledUser,
+  updateCourseById,
 } from "../controllers/course.controller.js";
 import { adminCheck, verifyJWT } from "../middleware/auth.middleware.js";
 const courseRouter = express.Router();
@@ -19,5 +20,7 @@ courseRouter.route("/delete/:id").delete(verifyJWT, adminCheck, deleteCourse);
 courseRouter.route("/courseById/:id").put(verifyJWT, getCourseById);
 
 courseRouter.route("/getReview/:courseId").get(verifyJWT,getAllReviewByCourse);
+
+courseRouter.route("/update/:courseId").put(verifyJWT,updateCourseById);
 
 export default courseRouter;

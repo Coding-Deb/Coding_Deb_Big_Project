@@ -90,6 +90,10 @@ userSchema.methods.generateRefreshToken = function () {
   );
 };
 
+userSchema.methods.usersWithoutAdmin = async function () {
+  return await User.find({ admin: false });
+}
+
 const User = mongoose.model("User", userSchema);
 
 export default User;

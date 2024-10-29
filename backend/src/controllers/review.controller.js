@@ -56,3 +56,28 @@ export const deleteReview = asyncHandler(async (req, res, next) => {
     apiError(res, 404, "Course Not Found !!!", "Course Unavailable !!!");
   }
 })
+
+export const updateReview = asyncHandler(async(req,res,next)=>{
+  const {reviewId} = req.params;
+  const updateData = req.body;
+  try {
+
+    const review = await Review.findById(reviewId);
+
+    if(!review){
+      return apiError(res, 404, "Review Not Found !!!", "Review Unavailable !!!");
+    }
+
+    const updatedReview = await review.updateReview(updateData);
+
+    return apiResponse(res, 200, "Review Updated Successfully", updatedReview);
+
+  } catch (error) {
+    apiError(
+      res,
+      404,
+      "Course Not Found !!!",
+      "Course Unavailable !!!"
+    )
+  }
+})

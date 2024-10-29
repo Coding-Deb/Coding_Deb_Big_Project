@@ -149,3 +149,47 @@ export const getAllReviewByCourse = asyncHandler(async (req, res, next) => {
     apiError(res, 400, "Course Not Found !!!", "Course Unavailable !!!");
   }
 });
+
+// export const updateCourseById = asyncHandler(async(req,res,next)=>{
+//   const { courseId } = req.params;
+//   const { name, description, price, category, level } = req.body;
+
+//   const course = await Course.findById(courseId);
+
+//   if(!course){
+//     return apiError(res, 500, "Course Not Found !!!", "Course Unavailable !!!");
+//   }
+
+//   course.name = name || course.name;
+//   course.description = description || course.description;
+//   course.price = price || course.price;
+//   course.category = category || course.category;
+//   course.level = level || course.level;
+
+//   const updatedCourse = await course.save();
+
+//   if(!updatedCourse){
+//     return apiError(res, 500, "Course Not Found !!!", "Course Unavailable !!!");
+//   }
+
+//   return apiResponse(res, 200, "Course Updated Successfully", updatedCourse);
+// })
+
+export const updateCourseById = asyncHandler(async (req, res, next) => {
+  const { courseId } = req.params;
+  const updateData = req.body;
+
+  try {
+    const course = await Course.findById(courseId);
+
+    if (!course) {
+      return apiError(res, 404, "Course Not Found", "Course Unavailable");
+    }
+
+    const updatedCourse = await course.updateCourse(updateData);
+
+    return apiResponse(res, 200, "Course Updated Successfully", updatedCourse);
+  } catch (error) {
+    return apiError(res, 500, "Error updating course", error.message);
+  }
+});

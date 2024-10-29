@@ -126,20 +126,26 @@ courseSchema.methods.getUsersEnrolled = async function () {
 
 courseSchema.methods.getAllReview = async function () {
   try {
-    const reviews = await Review.find({ course: this._id }).populate("user",{
-      "username": 1,
-      "_id": 0
-    })
-     return reviews;
+    const reviews = await Review.find({ course: this._id }).populate("user", {
+      username: 1,
+      _id: 0,
+    });
+    return reviews;
   } catch (error) {
-    apiError(
-      res,
-      400,
-      "Course Not Found !!!",
-      "Course Unavailable !!!"
-    )
+    apiError(res, 400, "Course Not Found !!!", "Course Unavailable !!!");
   }
-}
+};
+
+courseSchema.methods.updateCourse = async function (updateData) {
+  try {
+    Object.assign(this, updateData);
+    const updatedCourse = await this.save();
+    return updatedCourse;
+  } catch (error) {
+    throw new Error("Error updating course");
+  }
+};
+
 const Course = mongoose.model("Course", courseSchema);
 
 export default Course;
