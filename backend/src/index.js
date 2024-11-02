@@ -6,6 +6,7 @@ import cors from "cors";
 import userRouter from "./routes/user.routes.js";
 import courseRouter from "./routes/course.routes.js";
 import reviewRouter from "./routes/review.routes.js";
+import enrollRouter from "./routes/enroll.routes.js";
 
 // SETUP EXPRESS
 const app = express();
@@ -35,6 +36,7 @@ app.use(cookieParser());
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/course", courseRouter);
 app.use("/api/v1/review",reviewRouter);
+app.use("/api/v1/enroll",enrollRouter)
 
 // DATABASE CONNECTION
 dbConnection();

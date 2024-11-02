@@ -1,0 +1,24 @@
+User Routes
+|--------------------------------------------------------------------------
+route("/register,register);
+route("/login,login);
+route("/update/:userId,updateUser);
+route("/delete/:userId,deleteSpecificUser);
+route("/logout,logout);
+|--------------------------------------------------------------------------
+
+Course Routes
+|--------------------------------------------------------------------------
+route("/create,createCourse);
+route("/:userId,getCourseCreatedUser);
+route("/update/:coursdeId,updateCouse);
+route("/delete/:courseId,deleteCourse);
+|--------------------------------------------------------------------------
+
+Enroll Routes
+|--------------------------------------------------------------------------
+route("/create/:courseId,createEnroll);
+route("/delete/:courseId,deleteEnroll);
+route("/getEnrolledUser/:courseId,getEnrolledUser);
+route("/update/:courseId,);
+|--------------------------------------------------------------------------

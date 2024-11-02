@@ -19,7 +19,7 @@ const registerSchema = z.object({
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
       "Password must contain at least one lowercase letter, uppercase letter, number, and special character"
     ),
-    phone: z
+  phone: z
     .string({ required_error: "Phone is Required" })
     .min(10, "Phone must be at least 10 characters long")
     .max(10, "Phone cannot exceed 10 characters")
@@ -39,4 +39,4 @@ const loginSchema = z.object({
     ),
 });
 
-export { registerSchema , loginSchema };
+export { registerSchema, loginSchema };

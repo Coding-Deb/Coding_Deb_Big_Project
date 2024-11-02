@@ -23,53 +23,55 @@ const reviewSchema = new Schema({
   },
 });
 
-reviewSchema.methods.addReviewToComment = async function (courseId) {
-  try {
-    const updatedCourse = await Course.findByIdAndUpdate(
-      courseId,
-      {
-        $push: {
-          reviews: this._id,
-        },
-      },
-      {
-        new: true,
-      }
-    );
-    return updatedCourse;
-  } catch (error) {
-    console.log(error);
-    apiError(res, 404, "Course Not Found !!!", "Course Unavailable !!!");
-  }
-};
+// reviewSchema.methods.addReviewToComment = async function (courseId) {
+//   try {
+//     const updatedCourse = await Course.findByIdAndUpdate(
+//       courseId,
+//       {
+//         $push: {
+//           reviews: this._id,
+//         },
+//       },
+//       {
+//         new: true,
+//       }
+//     );
+//     return updatedCourse;
+//   } catch (error) {
+//     console.log(error);
+//     apiError(res, 404, "Course Not Found !!!", "Course Unavailable !!!");
+//   }
+// };
 
-reviewSchema.methods.deleteReviewFromComment = async function (courseId) {
-  try {
-    const updatedCourse = await Course.findByIdAndUpdate(
-      courseId,
-      {
-        $pull: {
-          reviews: this._id,
-        },
-      },
-      {
-        new: true,
-      }
-    );
-    return updatedCourse;
-  } catch (error) {
-    apiError(res, 404, "Course Not Found !!!", "Course Unavailable !!!");
-  }
-};
+// reviewSchema.methods.deleteReviewFromComment = async function (courseId) {
+//   try {
+//     const updatedCourse = await Course.findByIdAndUpdate(
+//       courseId,
+//       {
+//         $pull: {
+//           reviews: this._id,
+//         },
+//       },
+//       {
+//         new: true,
+//       }
+//     );
+//     return updatedCourse;
+//   } catch (error) {
+//     apiError(res, 404, "Course Not Found !!!", "Course Unavailable !!!");
+//   }
+// };
 
-reviewSchema.methods.updateReview = async function (updateData){
+// reviewSchema.methods.updateReview = async function (updateData){
 
-  Object.assign(this, updateData);
+//   Object.assign(this, updateData);
 
-  const updatedReview = await this.save();
+//   const updatedReview = await this.save();
 
-  return updatedReview;
-}
+//   return updatedReview;
+// }
+
+
 
 const Review = mongoose.model("Review", reviewSchema);
 

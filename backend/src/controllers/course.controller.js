@@ -26,13 +26,8 @@ export const createCourse = asyncHandler(async (req, res, next) => {
 
   const user = await User.findById(id);
 
-  if (!user) {
-    return apiError(
-      res,
-      500,
-      "User Not Found !!!",
-      "Something Found Error !!!"
-    );
+  if (!user || user.admin === false) {
+    return apiError(res, 500, "User Not Found !!!", "User Unavailable !!!");
   }
 
   const course = await Course.create({
@@ -61,34 +56,11 @@ export const createCourse = asyncHandler(async (req, res, next) => {
   );
 });
 
-export const deleteCourse = asyncHandler(async (req, res, next) => {
-  const { id } = req.params;
-
-  const userId = req.user.id;
-
-  const course = await Course.findById(id);
-
-  if (!course) {
-    return apiError(res, 500, "Course Not Found !!!", "Course Unavailable !!!");
-  }
-
-  const deletedCourse = await Course.findByIdAndDelete(id);
-
-  if (!deletedCourse) {
-    return apiError(res, 500, "Course Not Found !!!", "Course Unavailable !!!");
-  }
-
-  const updatedCourse = await course.deleteCourseFromUser(userId);
-  console.log(updatedCourse);
-
-  return apiResponse(res, 200, "Course Deleted Successfully", course);
-});
-
-export const getEnrolledUser = asyncHandler(async (req, res, next) => {
+export const getCourseCreatedUser = asyncHandler(async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const { courseId } = req.params;
 
-    const course = await Course.findById(id);
+    const course = await Course.findById(courseId);
 
     if (!course) {
       return apiError(
@@ -99,7 +71,7 @@ export const getEnrolledUser = asyncHandler(async (req, res, next) => {
       );
     }
 
-    const enrolledUser = await course.getUsersEnrolled();
+    const enrolledUser = await course.getCreatedCourse();
 
     if (!enrolledUser) {
       return apiError(
@@ -116,6 +88,29 @@ export const getEnrolledUser = asyncHandler(async (req, res, next) => {
   }
 });
 
+export const deleteCourse = asyncHandler(async (req, res, next) => {
+  const { courseId } = req.params;
+
+  const userId = req.user.id;
+
+  const course = await Course.findById(id);
+
+  if (!course) {
+    return apiError(res, 500, "Course Not Found !!!", "Course Unavailable !!!");
+  }
+
+  const deletedCourse = await Course.findByIdAndDelete(courseId);
+
+  if (!deletedCourse) {
+    return apiError(res, 500, "Course Not Found !!!", "Course Unavailable !!!");
+  }
+
+  const updatedCourse = await course.deleteCourseFromUser(userId);
+  console.log(updatedCourse);
+
+  return apiResponse(res, 200, "Course Deleted Successfully", course);
+});
+
 export const getCourseById = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
 
@@ -127,53 +122,6 @@ export const getCourseById = asyncHandler(async (req, res, next) => {
 
   return apiResponse(res, 200, "Course", course);
 });
-
-export const getAllReviewByCourse = asyncHandler(async (req, res, next) => {
-  try {
-    const { courseId } = req.params;
-    const course = await Course.findById(courseId);
-
-    if (!course) {
-      return apiError(
-        res,
-        500,
-        "Course Not Found !!!",
-        "Course Unavailable !!!"
-      );
-    }
-
-    const reviews = await course.getAllReview(courseId);
-
-    return apiResponse(res, 200, "All Review By Course", reviews);
-  } catch (error) {
-    apiError(res, 400, "Course Not Found !!!", "Course Unavailable !!!");
-  }
-});
-
-// export const updateCourseById = asyncHandler(async(req,res,next)=>{
-//   const { courseId } = req.params;
-//   const { name, description, price, category, level } = req.body;
-
-//   const course = await Course.findById(courseId);
-
-//   if(!course){
-//     return apiError(res, 500, "Course Not Found !!!", "Course Unavailable !!!");
-//   }
-
-//   course.name = name || course.name;
-//   course.description = description || course.description;
-//   course.price = price || course.price;
-//   course.category = category || course.category;
-//   course.level = level || course.level;
-
-//   const updatedCourse = await course.save();
-
-//   if(!updatedCourse){
-//     return apiError(res, 500, "Course Not Found !!!", "Course Unavailable !!!");
-//   }
-
-//   return apiResponse(res, 200, "Course Updated Successfully", updatedCourse);
-// })
 
 export const updateCourseById = asyncHandler(async (req, res, next) => {
   const { courseId } = req.params;

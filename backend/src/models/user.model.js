@@ -50,6 +50,12 @@ const userSchema = new Schema(
         ref: "Course",
       },
     ],
+    enrollments: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Enroll",
+      }
+    ]
   },
   {
     timestamps: true,

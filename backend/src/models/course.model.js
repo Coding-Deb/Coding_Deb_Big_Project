@@ -67,6 +67,12 @@ const courseSchema = new Schema({
       ref: "Review",
     },
   ],
+  Enrolled:[
+    {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    }
+  ]
 });
 
 courseSchema.methods.addCourseToUser = async function (userId) {
@@ -113,24 +119,12 @@ courseSchema.methods.deleteCourseFromUser = async function (userId) {
   }
 };
 
-courseSchema.methods.getUsersEnrolled = async function () {
+courseSchema.methods.getCreatedCourse = async function () {
   try {
     const users = await User.find({ courses: this._id }).select(
       "-password -refreshToken -admin"
     );
     return users;
-  } catch (error) {
-    apiError(res, 400, "Course Not Found !!!", "Course Unavailable !!!");
-  }
-};
-
-courseSchema.methods.getAllReview = async function () {
-  try {
-    const reviews = await Review.find({ course: this._id }).populate("user", {
-      username: 1,
-      _id: 0,
-    });
-    return reviews;
   } catch (error) {
     apiError(res, 400, "Course Not Found !!!", "Course Unavailable !!!");
   }
